@@ -1,0 +1,46 @@
+{
+  "name": "ai-evolution-atlas",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Source-grounded interactive atlas of foundation AI, 2017-2026",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty false",
+    "test": "node scripts/verify-workspace.mjs && vitest run",
+    "test:e2e": "playwright test",
+    "verify:workspace": "node scripts/verify-workspace.mjs",
+    "validate:data": "tsx scripts/validate-atlas.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@xyflow/react": "^12.11.3",
+    "d3-scale": "^4.0.2",
+    "d3-time": "^3.1.0",
+    "d3-time-format": "^4.1.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-time": "^3.0.4",
+    "@types/d3-time-format": "^4.0.3",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
+  }
+}

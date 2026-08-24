@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-ssr
+*.local
+*.tsbuildinfo
+test-results
+playwright-report
+blob-report
+playwright/.cache
+coverage
+.DS_Store
+.env
+.env.*
+
+# generated report bundles
+docs/reports.zip

@@ -1,0 +1,32 @@
+:root {
+  --atlas-ink: #141310;
+  --atlas-ink-raised: #1c1a16;
+  --atlas-paper: #f3eee4;
+  --atlas-paper-muted: #c9c2b4;
+  --atlas-rule: #3a362f;
+  --atlas-accent: #d4784a;
+  --atlas-accent-soft: #e8b089;
+  --atlas-focus: #e8c27a;
+  --atlas-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --atlas-sans: "Segoe UI", "Source Sans 3", system-ui, sans-serif;
+  --atlas-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--atlas-ink);
+  color: var(--atlas-paper);
+  font-family: var(--atlas-sans);
+}

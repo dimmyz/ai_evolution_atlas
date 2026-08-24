@@ -1,0 +1,116 @@
+.discovery-panel {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 46rem;
+  color: var(--atlas-paper);
+}
+
+.discovery-kicker {
+  margin: 0;
+  color: var(--atlas-accent-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.discovery-panel h2 {
+  margin: 0;
+  font-family: var(--atlas-display);
+  font-size: 1.55rem;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.discovery-lede,
+.discovery-status {
+  margin: 0;
+  color: var(--atlas-paper-muted);
+  font-size: 0.95rem;
+}
+
+.discovery-controls {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.discovery-controls label {
+  font-size: 0.85rem;
+}
+
+.discovery-controls input[type='search'] {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--atlas-rule);
+  background: var(--atlas-ink-raised);
+  color: var(--atlas-paper);
+  font: inherit;
+}
+
+.discovery-controls input[type='search']:focus-visible,
+.discovery-controls button:focus-visible,
+.discovery-results button:focus-visible,
+.discovery-citations a:focus-visible {
+  outline: 2px solid var(--atlas-focus);
+  outline-offset: 2px;
+}
+
+.discovery-controls fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.discovery-controls legend {
+  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--atlas-paper-muted);
+}
+
+.discovery-controls button,
+.discovery-results button {
+  margin: 0 0.35rem 0.35rem 0;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--atlas-rule);
+  background: transparent;
+  color: var(--atlas-paper);
+  font: inherit;
+  cursor: pointer;
+}
+
+.discovery-controls button[aria-pressed='true'],
+.discovery-results button[aria-pressed='true'] {
+  border-color: var(--atlas-accent);
+  background: rgba(212, 120, 74, 0.14);
+}
+
+.discovery-clear {
+  justify-self: start;
+}
+
+.discovery-empty {
+  margin: 0;
+  color: var(--atlas-paper-muted);
+}
+
+.discovery-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.discovery-citations h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.discovery-citations ol {
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.discovery-citations a {
+  color: var(--atlas-accent-soft);
+}

@@ -1,0 +1,183 @@
+.atlas-timeline {
+  color: var(--atlas-paper);
+}
+
+.atlas-timeline h2 {
+  margin: 0 0 0.7rem;
+  font-family: var(--atlas-display);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.12;
+}
+
+.atlas-timeline-lede {
+  margin: 0 0 1.6rem;
+  max-width: 38rem;
+  color: var(--atlas-paper-muted);
+}
+
+.atlas-timeline-axis-note {
+  margin: 0 0 0.7rem;
+  max-width: 38rem;
+  color: var(--atlas-paper-muted);
+  font-size: 0.88rem;
+}
+
+.atlas-timeline-axis {
+  position: relative;
+  height: 4.2rem;
+  margin: 0 0 1.75rem;
+  border-bottom: 1px solid var(--atlas-rule);
+}
+
+.atlas-timeline-era-band {
+  position: absolute;
+  top: 0;
+  height: 0.42rem;
+  background: color-mix(in srgb, var(--era-mark, var(--atlas-accent)) 55%, transparent);
+}
+
+.atlas-timeline-ticks {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.atlas-timeline-ticks li {
+  position: absolute;
+  top: 1.15rem;
+  color: var(--atlas-paper-muted);
+  font-family: var(--atlas-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  transform: translateX(-50%);
+}
+
+.atlas-timeline-point,
+.atlas-timeline-span {
+  position: absolute;
+  bottom: -0.2rem;
+  display: block;
+  height: 0.42rem;
+}
+
+.atlas-timeline-point {
+  width: 0.42rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.atlas-timeline-span {
+  min-width: 0.7rem;
+  padding: 0;
+  border: 0;
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.atlas-timeline-point.is-selected,
+.atlas-timeline-span.is-selected {
+  outline: 2px solid var(--atlas-paper);
+  outline-offset: 2px;
+  opacity: 1;
+  height: 0.62rem;
+  bottom: -0.28rem;
+}
+
+.atlas-timeline-years {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 28rem;
+  overflow: auto;
+}
+
+.atlas-timeline-year {
+  display: grid;
+  grid-template-columns: 4.2rem minmax(0, 1fr);
+  gap: 0.85rem;
+  padding: 0.55rem 0;
+  border-top: 1px solid var(--atlas-rule);
+}
+
+.atlas-timeline-year h3 {
+  margin: 0.55rem 0 0;
+  color: var(--atlas-paper-muted);
+  font-family: var(--atlas-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.atlas-timeline-year ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.atlas-timeline-year button {
+  display: grid;
+  width: 100%;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid transparent;
+  border-left: 3px solid var(--atlas-rule);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.atlas-timeline-year button:hover {
+  border-color: color-mix(in srgb, var(--atlas-paper) 24%, transparent);
+  border-left-width: 5px;
+  border-left-color: var(--atlas-accent-soft);
+  background: color-mix(in srgb, var(--atlas-ink-raised) 70%, transparent);
+  box-shadow: inset 0 -2px 0 var(--atlas-accent-soft);
+  transform: translateX(3px);
+}
+
+.atlas-timeline-year button.is-selected {
+  border-color: var(--atlas-accent-soft);
+  border-left-color: var(--atlas-accent);
+  background: var(--atlas-ink-raised);
+}
+
+.atlas-timeline-year button.is-selected:hover {
+  border-color: var(--atlas-accent-soft);
+  border-left-width: 5px;
+  border-left-color: var(--atlas-accent);
+  background: var(--atlas-ink-raised);
+  box-shadow: inset 0 -2px 0 var(--atlas-accent);
+  transform: translateX(3px);
+}
+
+.atlas-timeline-date {
+  color: var(--atlas-accent-soft);
+  font-family: var(--atlas-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.atlas-timeline-title {
+  font-family: var(--atlas-display);
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.atlas-timeline-year button:focus-visible {
+  outline: 2px solid var(--atlas-focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .atlas-timeline-year {
+    grid-template-columns: 1fr;
+  }
+}
