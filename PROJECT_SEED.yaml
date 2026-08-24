@@ -1,0 +1,38 @@
+project_id: ai-evolution-atlas
+version: 0.1
+date: 2026-08-24
+status: approved_seed
+board: ai-atlas
+logical_sprint: AIH-SPRINT-01
+sprint_goal: source-grounded polished interactive vertical slice
+product:
+  primary_scope_years: [2017, 2026]
+  backend_sprint_1: false
+  target_milestones: 30-40
+  primary_language: en
+  localization_sprint_1: false
+  surfaces:
+    - timeline
+    - detail_drawer
+    - lineage_graph
+    - filters_search
+    - citations
+factory:
+  topology: strateg_orchestrator_dispatcher_specialists
+  scheduling_model: flat_dependency_dag_with_logical_sprint
+  same_card_review: true
+  default_reviewer: claude-sonnet-5
+  critic_checkpoint_model: claude-sonnet-5
+  escalation_reviewer: claude-opus-5
+  max_failed_rework_cycles_before_escalation: 3
+  playwright_from_scaffold: true
+  workspace_identity_required: true
+canon:
+  - spec/ai-atlas/00-charter.md
+  - spec/ai-atlas/01-scope.md
+  - spec/ai-atlas/02-product-contract.md
+  - spec/ai-atlas/03-information-architecture.md
+  - spec/ai-atlas/04-data-contract.md
+  - spec/ai-atlas/05-research-contract.md
+  - spec/ai-atlas/06-visual-ux-contract.md
+  - spec/ai-atlas/07-acceptance.md
