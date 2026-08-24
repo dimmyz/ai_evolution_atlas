@@ -9,7 +9,11 @@
 .lineage-view {
   display: grid;
   gap: 1.4rem;
-  min-height: 100%;
+  /* Bounded: the stage can be several thousand pixels tall when discovery
+     lists the full atlas. Stretching lineage to 100% of that produced a
+     multi-thousand-pixel empty void around a small graph. */
+  align-content: start;
+  min-height: 24rem;
   color: var(--atlas-paper);
   font-family: var(--atlas-sans);
 }
@@ -338,4 +342,19 @@
   .lineage-inspect {
     grid-template-columns: 1fr;
   }
+}
+
+.lineage-entry {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--atlas-rule);
+}
+
+.lineage-entry-note {
+  margin: 0 0 0.55rem;
+  max-width: 42rem;
+  font-size: 0.88rem;
+  color: var(--atlas-paper-muted);
 }

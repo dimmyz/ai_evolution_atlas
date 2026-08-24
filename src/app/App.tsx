@@ -63,6 +63,19 @@ export function App({ atlas: atlasProp, initialState }: AppProps = {}) {
   );
   const milestones = atlas.publishedMilestones.filter((milestone) => visibleMilestoneIds.has(milestone.id));
   const detail = selectDetailModel(state.selected, atlas, repo);
+  // Entities that actually appear in a published relation, most-connected first.
+  // Derived from existing verified edges only — this invents no new lineage.
+  const lineageEntryPoints = useMemo(() => {
+    const degree = new Map<string, number>();
+    for (const relation of atlas.publishedRelations) {
+      degree.set(relation.from, (degree.get(relation.from) ?? 0) + 1);
+      degree.set(relation.to, (degree.get(relation.to) ?? 0) + 1);
+    }
+    return [...degree.entries()]
+      .sort((left, right) => right[1] - left[1])
+      .map(([id]) => atlas.entitiesById[id])
+      .filter((entity): entity is NonNullable<typeof entity> => Boolean(entity));
+  }, [atlas]);
 
   function select(target: SelectedTarget) {
     dispatch({ type: 'select', target });
@@ -123,6 +136,7 @@ export function App({ atlas: atlasProp, initialState }: AppProps = {}) {
           getMilestone={(id) => repo.getMilestone(id)}
           neighborhoodFor={(id) => repo.neighborhood(id)}
           getSource={(id) => atlas.sourcesById[id]}
+          entryPoints={lineageEntryPoints}
           onSelect={select}
           onEntityFocus={(entityId) => {
             dispatch({ type: 'select', target: { kind: 'entity', id: entityId } });

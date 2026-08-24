@@ -132,7 +132,7 @@ export function AtlasShell({
             ))}
           </ol>
         </aside>
-        <main className="atlas-stage" id="atlas-stage" tabIndex={-1}>
+        <main className="atlas-stage" id="atlas-stage" data-view={view} tabIndex={-1}>
           {discovery ? <div className="atlas-discovery">{discovery}</div> : null}
           <StageCopy view={view} timeline={timeline} lineage={lineage} />
         </main>

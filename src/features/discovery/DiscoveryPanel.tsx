@@ -13,6 +13,19 @@ import { buildSearchIndex } from './searchIndex';
 import { reconcileSelection, toSelectedTarget, type SelectedTarget } from './selection';
 import './discovery.css';
 
+const RESULT_GROUPS = [
+  {
+    kind: 'milestone' as const,
+    heading: 'Milestones',
+    note: 'Dated events on the timeline. Selecting one opens what happened and its sources.',
+  },
+  {
+    kind: 'entity' as const,
+    heading: 'Models, labs and technologies',
+    note: 'Named things the milestones refer to. Selecting one opens its lineage neighbourhood.',
+  },
+];
+
 export type DiscoveryPanelProps = {
   atlas: PublishedAtlas;
   filters?: DiscoveryFilters;
@@ -139,24 +152,43 @@ export function DiscoveryPanel({
       {results.length === 0 ? (
         <p className="discovery-empty">No matching records. Clear filters to return to the full atlas.</p>
       ) : (
-      <ul className="discovery-results">
-        {results.map((record) => {
-          const isSelected = selected?.id === record.id && selected.kind === record.kind;
+        RESULT_GROUPS.map((group) => {
+          const groupResults = results.filter((record) => record.kind === group.kind);
+          if (groupResults.length === 0) {
+            return null;
+          }
           return (
-            <li key={`${record.kind}:${record.id}`}>
-              <button
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => {
-                  onSelect?.(toSelectedTarget(record));
-                }}
-              >
-                {record.title}
-              </button>
-            </li>
+            <section
+              key={group.kind}
+              className="discovery-result-group"
+              aria-labelledby={`discovery-group-${group.kind}`}
+            >
+              <h3 id={`discovery-group-${group.kind}`} className="discovery-group-heading">
+                {group.heading}
+                <span className="discovery-group-count">{groupResults.length}</span>
+              </h3>
+              <p className="discovery-group-note">{group.note}</p>
+              <ul className="discovery-results">
+                {groupResults.map((record) => {
+                  const isSelected = selected?.id === record.id && selected.kind === record.kind;
+                  return (
+                    <li key={`${record.kind}:${record.id}`} data-category={record.category}>
+                      <button
+                        type="button"
+                        aria-pressed={isSelected}
+                        onClick={() => {
+                          onSelect?.(toSelectedTarget(record));
+                        }}
+                      >
+                        {record.title}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
           );
-        })}
-      </ul>
+        })
       )}
       {citations.length > 0 ? (
         <section className="discovery-citations" aria-label="Sources for selected item">

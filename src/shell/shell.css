@@ -153,12 +153,23 @@
 }
 
 .atlas-stage {
+  display: flex;
+  flex-direction: column;
   padding: 2rem 2.25rem 2.5rem;
   outline: none;
 }
 
 .atlas-discovery {
   margin-bottom: 1.5rem;
+}
+
+/* Switching to Lineage previously changed nothing above the fold, because the
+   discovery panel always occupied the top of the stage and pushed the graph
+   thousands of pixels down. Put the active relationship stage first instead. */
+.atlas-stage[data-view='lineage'] > .atlas-discovery {
+  order: 2;
+  margin-top: 2rem;
+  margin-bottom: 0;
 }
 
 .atlas-empty-stage h2,

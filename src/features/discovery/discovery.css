@@ -95,10 +95,53 @@
   color: var(--atlas-paper-muted);
 }
 
+.discovery-result-group {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.discovery-group-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.35rem 0 0;
+  font-family: var(--atlas-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--atlas-accent-soft);
+}
+
+.discovery-group-count {
+  padding: 0 0.35rem;
+  border: 1px solid var(--atlas-rule);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--atlas-paper-muted);
+}
+
+.discovery-group-note {
+  margin: 0 0 0.35rem;
+  max-width: 40rem;
+  font-size: 0.82rem;
+  color: var(--atlas-paper-muted);
+}
+
+/* Results were previously one block-level item per line, which turned the
+   full atlas into a ~2,500px vertical wall above the timeline and graph.
+   Wrap them instead. */
 .discovery-results {
   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
   margin: 0;
   padding: 0;
+}
+
+.discovery-results li {
+  display: contents;
 }
 
 .discovery-citations h3 {

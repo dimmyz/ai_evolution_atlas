@@ -29,6 +29,12 @@ export type LineageViewProps = {
   getSource?: (id: string) => SourceRecord | undefined;
   onSelect?: (target: SelectedTarget) => void;
   onEntityFocus?: (entityId: string) => void;
+  /**
+   * Entities that actually take part in at least one published relation,
+   * most-connected first. Used to give the unselected lineage stage a real
+   * entry point instead of a dead end.
+   */
+  entryPoints?: EntityRecord[];
   maxNodes?: number;
 };
 
@@ -149,6 +155,7 @@ export function LineageView({
   getSource,
   onSelect,
   onEntityFocus,
+  entryPoints = [],
   maxNodes = DEFAULT_MAX_NODES,
 }: LineageViewProps) {
   const focus = resolveLineageFocus({
@@ -197,6 +204,36 @@ export function LineageView({
           Select an entity to see verified relations — successor, architecture,
           authorship — with confidence and evidence attached.
         </p>
+        {entryPoints.length > 0 ? (
+          <section className="lineage-entry" aria-label="Entities with published relations">
+            <p className="lineage-kicker">Start from a connected entity</p>
+            <p className="lineage-entry-note">
+              These are the entities that currently have at least one verified
+              relation. Coverage is deliberately narrow: the atlas publishes only
+              source-backed edges.
+            </p>
+            <ul className="lineage-focus-choices">
+              {entryPoints.map((entity) => (
+                <li key={entity.id}>
+                  <button
+                    type="button"
+                    data-entity-id={entity.id}
+                    onClick={() => chooseInspectedEntity(entity.id, onSelect, onEntityFocus)}
+                  >
+                    <span
+                      className={`lineage-mark lineage-mark-${entity.entity_type}`}
+                      aria-hidden="true"
+                    />
+                    <span>
+                      {entity.name}
+                      <small>{entity.entity_type}</small>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </div>
     );
   }
