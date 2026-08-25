@@ -1,0 +1,83 @@
+name: Reviewer merge
+
+# The Factory's Reviewer role, given a machine expression.
+#
+# A worker agent opens a PR. The Reviewer agent performs its same-card review
+# and, if it approves, applies the `reviewed:approved` label. This workflow
+# then arms GitHub auto-merge, so the PR merges by itself once "Quality gates"
+# is green.
+#
+# It refuses in three cases:
+#   * the PR touches canon (spec/**, data/**, .hermes.md) without human sign-off
+#   * a Critic has applied `critic:blocking`
+#   * the PR is a draft
+#
+# Note on trust: every agent currently authenticates as the same GitHub user,
+# so a label is a *process* signal with an audit trail, not a security
+# boundary. Real independence requires the Reviewer to hold a separate
+# identity (machine user or GitHub App). See docs/GITHUB_WORKFLOW.md.
+
+on:
+  pull_request_target:
+    types: [labeled, unlabeled, opened, reopened, ready_for_review, synchronize]
+
+# Deliberately does not check out or execute PR code. `pull_request_target`
+# carries a writable token, so running untrusted head code here would be a
+# privilege-escalation hole. Only PR metadata is read.
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  arm-auto-merge:
+    name: Arm auto-merge
+    if: >-
+      github.event.pull_request.draft == false &&
+      contains(github.event.pull_request.labels.*.name, 'reviewed:approved')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PR: ${{ github.event.pull_request.number }}
+
+    steps:
+      - name: Refuse if a Critic marked this blocking
+        if: contains(github.event.pull_request.labels.*.name, 'critic:blocking')
+        run: |
+          gh pr comment "$PR" --repo "$REPO" --body \
+            "Auto-merge refused: \`critic:blocking\` is present. Resolve the Critic's finding and remove the label."
+          exit 1
+
+      - name: Classify changed paths
+        id: paths
+        run: |
+          files=$(gh pr diff "$PR" --repo "$REPO" --name-only)
+          echo "Changed files:"
+          echo "$files"
+
+          if echo "$files" | grep -qE '^(spec/|data/|\.hermes\.md$)'; then
+            echo "canon=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "canon=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Hold canon changes for a human
+        if: >-
+          steps.paths.outputs.canon == 'true' &&
+          !contains(github.event.pull_request.labels.*.name, 'human:approved')
+        run: |
+          gh pr edit "$PR" --repo "$REPO" --add-label "canon:human-required"
+          gh pr comment "$PR" --repo "$REPO" --body \
+            "Auto-merge held. This PR changes canon (\`spec/\`, \`data/\`, or \`.hermes.md\`), which \`.hermes.md\` §1 and §12 reserve for human decision. A person must review and apply \`human:approved\`.
+
+          Reviewer approval alone does not merge canon changes: this is the gate that stops an agent from quietly weakening the source contract or adding unsourced relations."
+          exit 1
+
+      - name: Arm auto-merge
+        run: |
+          gh pr merge "$PR" --repo "$REPO" --auto --squash
+          gh pr comment "$PR" --repo "$REPO" --body \
+            "Auto-merge armed by the Reviewer gate. This PR will squash-merge automatically once **Quality gates** passes.
+
+          Merge is performed by \`github-actions[bot]\`, not by the author, so the audit trail shows the gate rather than the agent that wrote the code."
