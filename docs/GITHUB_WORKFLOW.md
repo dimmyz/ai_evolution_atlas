@@ -47,6 +47,8 @@ Branch naming: `<card-id>-<short-slug>`, e.g. `s2-03-thread-interaction-spec`.
 
 The worker **never** applies `reviewed:approved` to its own PR. That label is the Reviewer's signature.
 
+Every PR body and review comment starts with `role: <hermes-profile>` (for example `role: coder`, `role: reviewer`). GitHub sees one user (`dimmyz`); the role line is how humans tell agents apart.
+
 ## For the Reviewer agent
 
 The review itself is unchanged — the same same-card review defined in `.hermes.md` §6, against the gates in `docs/QUALITY_GATES.md`. What changes is where the verdict is recorded.

@@ -1,4 +1,18 @@
-# START HERE — Hermes Strateg mission
+# LEGACY — DO NOT EXECUTE
+
+This prompt launches the **Atlas v1** seed DAG (2017–2026 encyclopedia slice).
+
+Active program is **v2**. Read instead:
+
+- `docs/v2/README.md`
+- `docs/v2/DEC-001.md`
+- `docs/v2/HERMES-INTAKE-001.md`
+
+Broad site coding remains closed (H5). Keep this file only as historical factory evidence.
+
+---
+
+# START HERE — Hermes Strateg mission (v1, archived)
 
 You are the **Strateg** for project `AI Evolution Atlas` (`project_id: ai-evolution-atlas`).
 
