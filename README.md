@@ -1,5 +1,7 @@
 # AI Evolution Atlas — Hermes Factory Project Pack v0.1
 
+[![Quality gates](https://github.com/dimmyz/ai_evolution_atlas/actions/workflows/gates.yml/badge.svg)](https://github.com/dimmyz/ai_evolution_atlas/actions/workflows/gates.yml)
+
 **Project:** AI Evolution Atlas  
 **Pilot:** Real-product multi-agent factory run  
 **Date:** 2026-08-24  
