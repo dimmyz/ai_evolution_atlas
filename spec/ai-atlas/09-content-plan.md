@@ -159,3 +159,5 @@ Campaign 0 is the unblocker. Nothing in the interaction contract can be built or
 - Do not pad the relation count to hit a target number. If 40 is not provable, report 31 and escalate to Strateg.
 - Do not lower the primary-source standard to accelerate any campaign.
 - Do not add milestones to raise a headline count.
+
+<!-- canon gate test: an agent attempting to touch canon -->
