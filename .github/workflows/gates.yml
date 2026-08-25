@@ -1,0 +1,67 @@
+name: Quality gates
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: gates-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gates:
+    name: Gate A/B/C
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Gate A - workspace/provenance. Running this on a neutral machine is the
+      # point: Aquarium Sprint 1 once certified the wrong repository as green.
+      - name: Gate A - verify workspace identity
+        run: npm run verify:workspace
+
+      # Gate B - factual/data integrity
+      - name: Gate B - validate dataset
+        run: npm run validate:data
+
+      # Gate C - engineering
+      - name: Gate C - unit tests
+        run: npm test
+
+      - name: Gate C - typecheck
+        run: npm run typecheck
+
+      - name: Gate C - production build
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Gate C - end-to-end (Chromium)
+        run: npm run test:e2e
+
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failure-output
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore

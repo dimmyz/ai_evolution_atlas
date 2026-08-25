@@ -1,0 +1,17 @@
+# Normalize line endings in the repository to LF.
+# The Factory runs agents across different machines and shells; without this a
+# worker with core.autocrlf=false can commit CRLF and produce a whole-file diff
+# that hides the real change from the Reviewer.
+* text=auto eol=lf
+
+# Binary evidence must never be line-ending normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.docx binary
+*.woff binary
+*.woff2 binary
