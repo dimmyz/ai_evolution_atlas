@@ -33,3 +33,12 @@ The four M1 draft artifacts now exist on disk:
 - `docs/v2/rm0-corpus-audit.md`
 
 The trigger condition is met, but no routing intervention is required while the four artifacts are in same-card review. Their downstream story-pack dependencies remain correctly gated on V2-C approval. This bounded sweep made no product or UI changes and did not enable Sol.
+
+## M1b bounded sweep
+
+- Duty card: `t_781b3e88` — V2-DUTY-M1b bounded watch
+- Sweep time: 2026-08-25 21:52:38 JDT
+- Workspace and Git identity re-verified; branch `v2-bootstrap`; HEAD `3bc5db0e18ed5890a6872fddd83ab4cf5a1ad7a7`; `.hermes.md` project marker and `docs/v2/` present.
+- M1 foundation cards V2-A, V2-B, V2-C, and V2-D are `done`; SP01, SP02, and SP04 are `done` after same-card review. No blocked card or third-cycle rework observed.
+- M1b routing is correctly gated: `t_4bc37e66` (SP01 fact-check) is `running`; SP02/SP04 fact-check cards remain dependency-gated `todo`; SP01 editorial and Story Path mechanic cards remain dependency-gated `todo`.
+- No routing intervention required. No website/UI work, `chrome:` links, main push, or Sol enablement performed.
