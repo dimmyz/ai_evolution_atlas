@@ -1,57 +1,41 @@
 # Atlas v2 — program roadmap (Strateg)
 
-Status: working plan after Claude M1 checkpoint  
-Date: 2026-08-26  
-Does not replace DEC-001. Human may supersede §0.
+Status: aligned with DEC-002 (2026-08-26)  
+Does not replace DEC-001. DEC-002 is the evidence/design contract (human confirm pending).
 
 ## Layers
 
 | Layer | Where | What |
 |---|---|---|
-| Strategy | GitHub **Issues** labelled `epic` | milestones to the site |
-| Execution | Hermes board `atlas-v2` | one wave of agent cards |
-| Canon | `docs/v2/` + DEC-001 | what is true |
+| Want / plan | GitHub **AI Atlas project** + Issues `epic` + Milestones | site implementation plan |
+| Execution | Hermes board `atlas-v2` | one cycle = several cards |
+| Want (text) | `docs/v2/` DEC, PRD, criteria | what we intend |
+| Movement | `docs/v2/progress/` | what we did, dated, append-only |
 
-Hermes Kanban is a **scheduling queue**, not a program office.  
-GitHub Projects UI is **not** wired yet: the `gh` token lacks `project` scope. Issues are the durable backlog until you run `gh auth refresh -s project`.
+Hermes is not the program office. After each cycle: `CYCLE-*.md` → critic / ChatGPT Strateg packet.
 
-## 0. Presentation contract (working, pending human)
+GitHub Projects API is not on this agent token (`project` scope missing). You already imported issues into **AI Atlas project**. Agents update **Issues + Milestones**. Drag columns in the Project UI as you like; we will comment issues when status changes.
 
-Adopt **(B) now, (A) as content work**:
+## Contract (DEC-002)
 
-- **Show** what is established and where the popular story outruns the record.
-- **Keep harvesting** transitions. Do not treat “path not connected” as a factory failure.
-- **Designer** only after at least one packet is FC-accepted **or** a human accepts a “gaps-as-product” UX brief.
+**Phase 1:** design-ready **minimum** (beads + local source links).  
+**Phase 2:** enrichment (CUDA↔AlexNet, sibling typing, adoption…).  
+Human unlocks design. Fact-checker fills the scorecard. We do **not** wait for a glued myth path.
 
-If you reject (B), say so. M1 exit then stays “path must connect.”
+## Epics → GitHub
 
-## Epics → site
+| Epic | Issue | Milestone | Now |
+|---|---|---|---|
+| E0 Bootstrap | #4 | M0 | PR #3 open |
+| E1 M1 research | #5 | M1 | closed |
+| E2 Fact-check | #6 | M1 | closed (`needs_more`) |
+| E3 Editorial | #7 | M1–M2 | drafts + assemble exist |
+| E4 Harvest / enrich | #8 | M2 then M4 | M2 harvest done; Phase 2 later |
+| E5 Ontology | #9 | M2 | draft 08 on disk |
+| E6 UX Phase 1 | #10 | M3 | **waiting scorecard + human** |
+| E7 Arch / H5 | #11 | M5 | later |
+| E8 Implementation | #12 | M5 | H5 closed |
 
-| Epic | Outcome | Now |
-|---|---|---|
-| **E0 Bootstrap** | `main` is v2 entry; v1 archived | PR #3 open, `human:approved` |
-| **E1 Evidence method + M1 packs** | 04/05/06, RM0, SP01/02/04 research | done |
-| **E2 Independent fact-check** | verdicts; no invented edges | done; all 3 `needs_more` |
-| **E3 Editorial (honest)** | reader copy from accepted claims only | drafts done; not a connected path |
-| **E4 Claim harvest (this wave)** | claims from **already-read** sources | **next** |
-| **E5 Ontology 08** | entities + relation types | next, parallel |
-| **E6 Story Path UX (honest brief)** | mechanic on real FC output | **blocked** until E4/E5 or human (B) |
-| **E7 Architecture + acceptance** | ADR, NFR, H5 matrix | after E6 |
-| **E8 Implementation** | Coder builds site | **H5 closed** |
+## Current cycle: M2b
 
-## Current wave (Hermes)
-
-1. Register every card in `docs/reports/v2-card-ids.json` before spawn.  
-2. Harvest SP01/SP02/SP04 claims from already-read PDFs (researcher).  
-3. Fact-check those claims (fact-checker).  
-4. Editor **assembles** existing FC + new verdicts; still no invented transitions.  
-5. Architect drafts ontology under pressure of real claims.  
-6. **Do not** re-run V2-UX on “draw Step 1 of 6.” Old spec has D1–D4 (critic).  
-7. Factory card: `request_review` must set `--reviewer reviewer`.
-
-## Stop
-
-- Broad site coding.  
-- Fabricating edges.  
-- Designer on a connected-path brief while packets are `needs_more`.  
-- Untracked evidence (commit same day).
+Fill `docs/v2/progress/SCORECARD-PHASE1.md` against `DESIGN-READY-MINIMUM.md`. Then human unlock.

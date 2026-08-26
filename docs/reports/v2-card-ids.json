@@ -14,5 +14,11 @@
   "V2-ED-SP02": "t_8d09ad7e",
   "V2-ED-SP04": "t_e7a966d9",
   "V2-UX": "t_17278b86",
-  "duty-m1b": "t_781b3e88"
+  "duty-m1b": "t_781b3e88",
+  "V2-HV-SP01": "t_23ca177e",
+  "V2-HV-SP02": "t_f265da46",
+  "V2-HV-SP04": "t_b0c862a0",
+  "V2-FC-HV": "t_e3cb2a8b",
+  "V2-ED-ASSEMBLE": "t_cee52d30",
+  "V2-ONT-08": "t_b6acb5d6"
 }
