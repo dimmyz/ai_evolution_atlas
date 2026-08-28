@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atlas — Nearby records (Phase-1 concept)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f4efe6;
+      --paper-2: #ebe4d8;
+      --ink: #1c1712;
+      --ink-2: #4a433a;
+      --muted: #7a7268;
+      --rule: #d4cbbd;
+      --rust: #b44a28;
+      --rust-d: #8e351c;
+      --quote: #2f4a3c;
+      --dash: #8a6230;
+      --card: #fffaf3;
+      --shadow: 0 18px 40px rgba(28, 23, 18, 0.08);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      background:
+        radial-gradient(1200px 500px at 10% -10%, #fff8ee 0%, transparent 55%),
+        var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    button { font: inherit; cursor: pointer; }
+    a { color: var(--rust-d); }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 22px 22px 80px; }
+    header.top {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);
+    }
+    .brand { font-family: Fraunces, serif; font-weight: 650; font-size: 1.35rem; letter-spacing: -0.02em; }
+    .brand small { display: block; font-family: "Source Sans 3", sans-serif; font-weight: 400; color: var(--muted); font-size: 0.78rem; letter-spacing: 0.04em; }
+    .top-meta { color: var(--muted); font-size: 0.85rem; text-align: right; }
+    .path {
+      margin: 28px 0 22px;
+    }
+    .path h1 {
+      font-family: Fraunces, serif; font-size: clamp(1.6rem, 3vw, 2.15rem);
+      font-weight: 650; margin: 0 0 8px; letter-spacing: -0.03em;
+    }
+    .path p { margin: 0; color: var(--ink-2); max-width: 42rem; }
+    .stage { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.8fr); gap: 22px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--rule);
+      box-shadow: var(--shadow);
+      padding: 28px 28px 22px;
+    }
+    .year { color: var(--rust); font-weight: 600; letter-spacing: 0.12em; font-size: 0.75rem; text-transform: uppercase; }
+    .card h2 {
+      font-family: Fraunces, serif; font-size: 1.55rem; margin: 8px 0 4px; letter-spacing: -0.03em;
+    }
+    .kicker { color: var(--muted); margin: 0 0 16px; }
+    blockquote {
+      margin: 0 0 18px; padding: 0 0 0 16px;
+      border-left: 3px solid var(--rust);
+      font-family: Fraunces, serif; font-size: 1.08rem; font-weight: 500;
+      line-height: 1.45;
+    }
+    .why { color: var(--ink-2); font-size: 0.95rem; line-height: 1.5; }
+    .why strong { font-weight: 600; color: var(--ink); }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .btn {
+      background: transparent; border: 1px solid var(--ink);
+      padding: 8px 12px; color: var(--ink);
+    }
+    .btn:hover, .btn:focus-visible { background: var(--ink); color: var(--paper); outline: none; }
+    .btn.primary { background: var(--rust); border-color: var(--rust); color: #fffaf3; }
+    .btn.primary:hover, .btn.primary:focus-visible { background: var(--rust-d); border-color: var(--rust-d); color: #fff; }
+    .near {
+      background: var(--paper-2); border: 1px solid var(--rule); padding: 18px;
+    }
+    .near h3 { margin: 0 0 12px; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .quote-link {
+      display: block; width: 100%; text-align: left;
+      background: var(--card); border: 1px solid var(--rule);
+      padding: 12px 12px 10px; margin-bottom: 10px;
+    }
+    .quote-link span { display: block; }
+    .quote-link .who { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .quote-link .said { font-family: Fraunces, serif; margin-top: 4px; }
+    .quote-link.solid { border-left: 3px solid var(--quote); }
+    .quote-link.dashed { border-left: 3px dashed var(--dash); }
+    .quote-link:hover, .quote-link:focus-visible { border-color: var(--ink); outline: none; }
+    .gap-note {
+      margin-top: 8px; padding: 12px; border: 1px dashed var(--muted);
+      color: var(--ink-2); font-size: 0.9rem;
+    }
+    .rail { margin-top: 28px; }
+    .rail h3, .oos h3 {
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); font-weight: 600;
+    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      background: transparent; border: 1px solid var(--rule);
+      padding: 8px 12px; color: var(--ink-2);
+    }
+    .chip[aria-current="true"] { border-color: var(--rust); color: var(--rust-d); }
+    .chip:hover, .chip:focus-visible { border-color: var(--ink); color: var(--ink); outline: none; }
+    .oos { margin-top: 22px; padding-top: 8px; }
+    .oos .chip { border-style: dashed; color: var(--muted); }
+    footer.status {
+      margin-top: 36px; padding-top: 12px; border-top: 1px solid var(--rule);
+      display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: 0.85rem;
+    }
+    footer.status b { color: var(--ink); font-weight: 600; }
+    .banner {
+      font-size: 0.8rem; color: var(--muted); margin: 0 0 10px;
+    }
+    dialog {
+      border: 1px solid var(--ink);
+      background: var(--card);
+      color: var(--ink);
+      width: min(720px, calc(100vw - 24px));
+      padding: 0;
+      box-shadow: var(--shadow);
+    }
+    dialog::backdrop { background: rgba(28, 23, 18, 0.35); }
+    .dlg { padding: 24px 26px 22px; }
+    .dlg h2 { font-family: Fraunces, serif; font-size: 1.25rem; margin: 0 0 10px; }
+    .dlg p { line-height: 1.5; color: var(--ink-2); }
+    .ends { font-size: 0.9rem; color: var(--ink); }
+    .except { margin-top: 10px; padding: 10px 12px; background: var(--paper-2); font-size: 0.92rem; }
+    .ev-row { border-top: 1px solid var(--rule); padding: 10px 0; }
+    .ev-row:first-of-type { border-top: 0; }
+    .src { color: var(--muted); font-size: 0.85rem; }
+    .verdict { font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--quote); }
+    @media (max-width: 840px) {
+      .stage { grid-template-columns: 1fr; }
+      .top-meta { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="banner">Static concept · no backend · Phase-1 beads only · not production <code>src/</code></p>
+    <header class="top">
+      <div class="brand">Atlas<small>a source-grounded history</small></div>
+      <div class="top-meta">Nearby records · this slice</div>
+    </header>
+
+    <section class="path">
+      <h1>Intended path: Transformer and ChatGPT</h1>
+      <p>Documented records. The connecting path is not yet evidenced.</p>
+    </section>
+
+    <div class="stage">
+      <article class="card" id="focus-card" tabindex="-1">
+        <div class="year" id="focus-year">2017</div>
+        <h2 id="focus-title">Attention Is All You Need</h2>
+        <p class="kicker" id="focus-kicker">the Transformer</p>
+        <blockquote id="focus-quote">“We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.”</blockquote>
+        <p class="why" id="focus-why"><strong>Why this record is here.</strong> This is the architecture named at the start of the intended path. The accepted record is the proposal itself, not a later product.</p>
+        <div class="actions">
+          <button class="btn" type="button" data-open="quote">Open the paper quote</button>
+          <button class="btn" type="button" data-open="tech">Technical note</button>
+          <button class="btn primary" type="button" data-open="evidence">Evidence for this card</button>
+        </div>
+      </article>
+
+      <aside class="near" aria-label="Who names this architecture">
+        <h3>Who names this architecture</h3>
+        <button class="quote-link solid" type="button" data-link="L1">
+          <span class="who">GPT paper</span>
+          <span class="said">“we use the Transformer”</span>
+        </button>
+        <button class="quote-link dashed" type="button" data-link="L3">
+          <span class="who">GPT-2 page</span>
+          <span class="said">“transformer-based”</span>
+        </button>
+        <div class="gap-note">
+          No sourced link from here to ChatGPT.
+          <div style="margin-top:8px">
+            <button class="btn" type="button" data-open="gap">See the gap</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <section class="rail">
+      <h3>Other records in this slice — not steps</h3>
+      <div class="chips" id="rail"></div>
+    </section>
+
+    <section class="oos">
+      <h3>Not in this slice</h3>
+      <div class="chips">
+        <button class="chip" type="button" data-open="oos" data-topic="ImageNet / AlexNet">ImageNet / AlexNet</button>
+        <button class="chip" type="button" data-open="oos" data-topic="NVIDIA / CUDA">NVIDIA / CUDA</button>
+        <button class="chip" type="button" data-open="oos" data-topic="how ChatGPT was built">how ChatGPT was built</button>
+      </div>
+    </section>
+
+    <footer class="status">
+      <span>Focus: <b id="status-focus">Transformer</b></span>
+      <span>Records: <b>6 in slice</b></span>
+      <span>Proven path: <b>none</b></span>
+    </footer>
+  </div>
+
+  <dialog id="dlg-link">
+    <div class="dlg">
+      <h2>Quoted link — not a causal spine</h2>
+      <p class="ends" id="link-ends"></p>
+      <blockquote id="link-quote"></blockquote>
+      <p id="link-note"></p>
+      <div class="except" id="link-extra" hidden></div>
+      <div class="actions">
+        <button class="btn" type="button" data-close>Stay with this record</button>
+        <button class="btn primary" type="button" id="link-open-from">Open the other card</button>
+        <button class="btn" type="button" data-open="evidence">Evidence</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-gap">
+    <div class="dlg">
+      <h2>No sourced link in this slice</h2>
+      <p>ChatGPT is a documented research preview (30 November 2022). This first slice does not join it to the Transformer as a constructed path.</p>
+      <p>You may still open ChatGPT as a record. That is not “step 6.”</p>
+      <div class="actions">
+        <button class="btn" type="button" data-close>Back to the Transformer</button>
+        <button class="btn primary" type="button" data-bead="B6" data-close>Open the ChatGPT record</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-oos">
+    <div class="dlg">
+      <h2>Not in this slice</h2>
+      <p id="oos-copy">This first slice only shows Phase-1 records around the Transformer and nearby GPT papers. Other flagships and ChatGPT’s construction are not evidenced here.</p>
+      <div class="actions">
+        <button class="btn primary" type="button" data-close>Back to the Transformer</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-ev">
+    <div class="dlg">
+      <h2>Evidence for this card</h2>
+      <p class="src">Claim IDs are secondary. Names below are the human-readable sources.</p>
+      <div id="ev-list"></div>
+      <div class="actions">
+        <button class="btn" type="button" data-close>Close evidence</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-tech">
+    <div class="dlg">
+      <h2>Technical note</h2>
+      <p>The Transformer, as proposed, is a network architecture based solely on attention mechanisms. The paper presents it as doing without recurrence and convolutions.</p>
+      <p>No account of training scale, parameter counts, or interface design — those are not in the accepted claims used here.</p>
+      <div class="actions"><button class="btn" type="button" data-close>Close</button></div>
+    </div>
+  </dialog>
+
+  <dialog id="dlg-quote">
+    <div class="dlg">
+      <h2>Paper quote</h2>
+      <blockquote id="paper-quote-full"></blockquote>
+      <div class="actions"><button class="btn" type="button" data-close>Close</button></div>
+    </div>
+  </dialog>
+
+  <script>
+    const beads = {
+      B1: {
+        status: "Transformer",
+        year: "2017",
+        title: "Attention Is All You Need",
+        kicker: "the Transformer",
+        quote: "“We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.”",
+        why: "This is the architecture named at the start of the intended path. The accepted record is the proposal itself, not a later product.",
+        evidence: [
+          { verdict: "accepted", claim: "The paper title is Attention Is All You Need.", src: "arXiv: Attention Is All You Need" },
+          { verdict: "accepted", claim: "The abstract proposes the Transformer, based solely on attention, without recurrence or convolutions.", src: "arXiv abstract" }
+        ]
+      },
+      B2: {
+        status: "GPT paper",
+        year: "",
+        title: "Improving Language Understanding by Generative Pre-Training",
+        kicker: "GPT paper",
+        quote: "Large gains by generative pre-training of a language model on unlabeled text, then discriminative fine-tuning. The approach uses “minimal changes to the model architecture.”",
+        why: "A method record on the intended sequence. Architecture wording for this paper lives on the quoted link, not as a slogan about “GPT.”",
+        evidence: [
+          { verdict: "accepted with reservations", claim: "Method uses minimal changes to the model architecture — not “zero change.”", src: "GPT paper PDF" },
+          { verdict: "accepted", claim: "§3.1: “For our model architecture, we use the Transformer.”", src: "GPT paper §3.1" }
+        ]
+      },
+      B3: {
+        status: "GPT-2",
+        year: "",
+        title: "Better language models and their implications",
+        kicker: "GPT-2 · OpenAI page",
+        quote: "“Our model, called GPT-2 (a successor to GPT), was trained simply to predict the next word in 40GB of Internet text.”",
+        why: "OpenAI’s description of GPT-2. Source wording only. It does not prove later systems use the Transformer.",
+        extra: "The same page calls GPT-2 “a large transformer-based language model.”",
+        evidence: [
+          { verdict: "accepted", claim: "The page calls GPT-2 “a successor to GPT.”", src: "OpenAI: Better language models…" },
+          { verdict: "accepted", claim: "The page calls GPT-2 “a large transformer-based language model.”", src: "OpenAI: Better language models…" }
+        ]
+      },
+      B4: {
+        status: "GPT-3",
+        year: "",
+        title: "Language Models are Few-Shot Learners",
+        kicker: "GPT-3",
+        quote: "GPT-3 is applied “without any gradient updates or fine-tuning,” with tasks and few-shot demonstrations specified through text interaction.",
+        why: "The accepted record is this evaluation setting, not a successor step after GPT-2 and not an Atlas claim that GPT-3 is Transformer-based.",
+        evidence: [
+          { verdict: "accepted", claim: "Few-shot without gradient updates or fine-tuning.", src: "GPT-3 paper abstract" },
+          { verdict: "accepted with reservations", claim: "“We use the same model and architecture as GPT-2,” with explicit exceptions.", src: "GPT-3 paper §2.1" }
+        ]
+      },
+      B5: {
+        status: "InstructGPT method",
+        year: "",
+        title: "Training language models to follow instructions with human feedback",
+        kicker: "the paper’s name: InstructGPT",
+        quote: "Labeler demonstrations used to fine-tune GPT-3 with supervised learning; then rankings used to further fine-tune that model with reinforcement learning from human feedback. “We call the resulting models InstructGPT.”",
+        why: "A two-stage method applied to GPT-3, plus the name the paper uses. Not an approved product node in the Atlas graph.",
+        evidence: [
+          { verdict: "accepted", claim: "Supervised fine-tuning of GPT-3; then RLHF.", src: "InstructGPT paper abstract" },
+          { verdict: "accepted with reservations", claim: "The paper calls the resulting models InstructGPT.", src: "InstructGPT paper abstract" }
+        ]
+      },
+      B6: {
+        status: "ChatGPT preview",
+        year: "30 November 2022",
+        title: "Introducing ChatGPT",
+        kicker: "research preview",
+        quote: "“We’ve trained a model called ChatGPT which interacts in a conversational way.”",
+        why: "A dated official announcement. An endpoint bead. Not proof of descent from the Transformer.",
+        extra: "The page also says: “ChatGPT is a sibling model to InstructGPT.” That sentence is shown only as a dashed quote, with no type.",
+        evidence: [
+          { verdict: "accepted", claim: "ChatGPT introduced as a research preview on 30 November 2022.", src: "OpenAI: Introducing ChatGPT" },
+          { verdict: "accepted with reservations", claim: "Attributed wording: “ChatGPT is a sibling model to InstructGPT.” Not derivation.", src: "OpenAI: Introducing ChatGPT" }
+        ]
+      }
+    };
+
+    const links = {
+      L1: {
+        from: "B2", to: "B1",
+        ends: "GPT paper  →  Transformer",
+        quote: "“For our model architecture, we use the Transformer.”",
+        note: "This sentence is the paper’s architecture wording. It does not say later systems used the Transformer. It is not the GPT-2 page’s “transformer-based” sentence."
+      },
+      L3: {
+        from: "B3", to: "B1",
+        ends: "GPT-2 page  →  Transformer",
+        quote: "“a large transformer-based language model”",
+        note: "GPT-2’s sentence only. Never merge this with the GPT paper’s “we use the Transformer.”"
+      },
+      L2: {
+        from: "B3", to: "B2",
+        ends: "GPT-2 page  →  “GPT” as the page said",
+        quote: "“a successor to GPT”",
+        note: "Source-owned succession wording. The generic GPT endpoint is not treated as an approved graph identity here."
+      },
+      L4: {
+        from: "B4", to: "B3",
+        ends: "GPT-3 paper  →  GPT-2",
+        quote: "“We use the same model and architecture as GPT-2”",
+        extra: "Exception, on the same panel: alternating dense and locally banded sparse attention patterns in the layers of the transformer.",
+        note: "Not successor_of. Not an Atlas fact that GPT-3 is Transformer-based."
+      },
+      L5: {
+        from: "B5", to: "B4",
+        ends: "InstructGPT paper  →  GPT-3",
+        quote: "fine-tune GPT-3 (supervised, then RLHF)",
+        note: "Method wording. Not a product identity edge."
+      },
+      L6: {
+        from: "B6", to: "B5",
+        ends: "ChatGPT announcement  →  InstructGPT (paper’s name)",
+        quote: "“ChatGPT is a sibling model to InstructGPT.”",
+        note: "Dashed. No type. No “developed in parallel.” No “built from.”"
+      }
+    };
+
+    const rail = [
+      ["B1", "Transformer"],
+      ["B2", "GPT paper"],
+      ["B3", "GPT-2"],
+      ["B4", "GPT-3"],
+      ["B5", "InstructGPT method"],
+      ["B6", "ChatGPT, 30 Nov 2022"]
+    ];
+
+    let current = "B1";
+    const railEl = document.getElementById("rail");
+    rail.forEach(([id, label]) => {
+      const b = document.createElement("button");
+      b.className = "chip";
+      b.type = "button";
+      b.dataset.bead = id;
+      b.textContent = label;
+      railEl.appendChild(b);
+    });
+
+    function renderBead(id) {
+      current = id;
+      const b = beads[id];
+      document.getElementById("focus-year").textContent = b.year || "Record";
+      document.getElementById("focus-title").textContent = b.title;
+      document.getElementById("focus-kicker").textContent = b.kicker;
+      document.getElementById("focus-quote").textContent = b.quote;
+      document.getElementById("focus-why").innerHTML = "<strong>Why this record is here.</strong> " + b.why + (b.extra ? " " + b.extra : "");
+      document.getElementById("status-focus").textContent = b.status;
+      document.getElementById("paper-quote-full").textContent = b.quote;
+      [...railEl.children].forEach(ch => {
+        ch.setAttribute("aria-current", ch.dataset.bead === id ? "true" : "false");
+      });
+      document.getElementById("focus-card").focus({ preventScroll: true });
+    }
+
+    function show(id) { document.getElementById(id).showModal(); }
+
+    function evidenceFor(id) {
+      const list = document.getElementById("ev-list");
+      list.innerHTML = "";
+      beads[id].evidence.forEach(row => {
+        const d = document.createElement("div");
+        d.className = "ev-row";
+        d.innerHTML = '<div class="verdict">' + row.verdict + "</div><div>" + row.claim + '</div><div class="src">' + row.src + "</div>";
+        list.appendChild(d);
+      });
+      show("dlg-ev");
+    }
+
+    let pendingFrom = "B1";
+    document.body.addEventListener("click", (e) => {
+      const t = e.target.closest("[data-open], [data-close], [data-bead], [data-link]");
+      if (!t) return;
+      if (t.dataset.close !== undefined && !t.dataset.bead) {
+        t.closest("dialog").close();
+        return;
+      }
+      if (t.dataset.bead) {
+        const dlg = t.closest("dialog");
+        if (dlg) dlg.close();
+        renderBead(t.dataset.bead);
+        return;
+      }
+      if (t.dataset.link) {
+        const L = links[t.dataset.link];
+        document.getElementById("link-ends").textContent = L.ends;
+        document.getElementById("link-quote").textContent = L.quote;
+        document.getElementById("link-note").textContent = L.note;
+        const extra = document.getElementById("link-extra");
+        if (L.extra) { extra.hidden = false; extra.textContent = L.extra; }
+        else extra.hidden = true;
+        pendingFrom = L.from;
+        document.getElementById("link-open-from").onclick = () => {
+          document.getElementById("dlg-link").close();
+          renderBead(L.from);
+        };
+        show("dlg-link");
+        return;
+      }
+      const open = t.dataset.open;
+      if (open === "evidence") evidenceFor(current);
+      if (open === "tech") show("dlg-tech");
+      if (open === "quote") {
+        document.getElementById("paper-quote-full").textContent = beads[current].quote;
+        show("dlg-quote");
+      }
+      if (open === "gap") show("dlg-gap");
+      if (open === "oos") {
+        document.getElementById("oos-copy").textContent =
+          "“" + t.dataset.topic + "” is not in this slice. This first slice only shows Phase-1 records around the Transformer and nearby GPT papers. Other flagships and ChatGPT’s construction are not evidenced here.";
+        show("dlg-oos");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") document.querySelectorAll("dialog[open]").forEach(d => d.close());
+    });
+
+    renderBead("B1");
+  </script>
+</body>
+</html>

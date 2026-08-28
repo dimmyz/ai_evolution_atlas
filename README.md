@@ -27,6 +27,9 @@ First flagship paths (DEC-001 H4):
 
 Do **not** run `prompts/START_HERE_FOR_STRATEG.md`. That file launches the **v1** seed DAG. Use `docs/v2/` and `docs/v2/HERMES-INTAKE-001.md`.
 
+Until PR #3 is merged, clone **`v2-bootstrap`**, not only `main`. Designers on another machine: `docs/v2/DESIGNER-INTAKE.md`. Static concept: `docs/v2/design-handoff/mocks/phase1-story-slice.html`.
+
+
 ## Canon (v2)
 
 Authority order:

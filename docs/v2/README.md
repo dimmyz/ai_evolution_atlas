@@ -5,11 +5,12 @@ Authoritative **direction** for the current program. Source pack also exists loc
 ## Read order
 
 1. `DEC-001.md` — binding H1–H5  
-2. `PG-01.md` — planning gate  
-3. `HERMES-INTAKE-001.md` — Operational Strateg kickoff  
-4. `OPERATIONAL-STRATEG-INTAKE-REPORT.md` — live environment map  
+2. `DEC-002.md` — two-phase evidence / design gate  
+3. `DESIGNER-INTAKE.md` — for any designer (Hermes or another computer)  
+4. `PG-01.md` — planning gate  
+5. `11-ux-phase1-story-slice.md` — current Phase-1 UX spec  
+6. `design-handoff/mocks/phase1-story-slice.html` — static concept to open in a browser  
 
-Then add 01 Charter / 02 Vision / 03 PRD / 07 Research Program as markdown is checked in.
 
 ## Missing next documents (to be drafted in M1)
 
